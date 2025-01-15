@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/07 23:48:49 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/15 21:21:30 by afpachec         ###   ########.fr       */
+/*   Created: 2025/01/15 15:33:26 by afpachec          #+#    #+#             */
+/*   Updated: 2025/01/15 21:32:16 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include <utils.h>
 
-# include <unistd.h>
-# include <allocs.h>
-# include <utils.h>
+t_utils	*utils(void)
+{
+	static t_utils	utils;
 
-#endif
+	utils.fputstr = utils_fputstr;
+	utils.fputnbr = utils_fputnbr;
+	utils.abs = utils_abs;
+	utils.bzero = utils_bzero;
+	utils.strlen = utils_strlen;
+	return (&utils);
+}

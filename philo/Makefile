@@ -1,11 +1,14 @@
 NAME = philo
 CC = cc
-INCLUDES = -I.
+INCLUDES = -I. -I./allocs -I./utils
 CFLAGS = -Wextra -Werror -Wall $(INCLUDES)
 
 OBJ_DIR = ../obj
+SRC_ALLOCS = allocs/alloc_utils.c allocs/allocs.c 
+SRC_UTILS = utils/utils.c utils/utils_utils.c
 SRC = main.c
-OBJS = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
+SRC += $(SRC_ALLOCS) $(SRC_UTILS)
+OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 all: $(NAME)
 
@@ -13,7 +16,7 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
 $(OBJ_DIR)/%.o: %.c
-	mkdir -p $(OBJ_DIR)
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@	
 
 clean:
