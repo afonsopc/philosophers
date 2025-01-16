@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   internal_allocs.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:48:49 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/15 23:33:49 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/01/15 23:39:23 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#ifndef INTERNAL_ALLOCS_H
+# define INTERNAL_ALLOCS_H
 
-# include <unistd.h>
-# include <stdbool.h>
 # include <allocs.h>
 
-typedef struct s_utils
-{
-	ssize_t				(*fputstr)(int fd, char *s);
-	ssize_t				(*fputnbr)(int fd, long long n);
-	size_t				(*strlen)(char *str);
-	unsigned long long	(*abs)(long long n);
-	void				(*bzero)(void *s, size_t n);
-	char				*(*strcopy)(char *str);
-	void				(*exit)(int code);
-	ssize_t				(*fputhex)(int fd, unsigned long long n);
-	ssize_t				(*fputptr)(int fd, void *ptr);
-}	t_utils;
-
-t_utils				*utils(void);
-bool				init_utils(void);
+void			*allocs_calloc(size_t count, size_t size);
+bool			allocs_add_alloc(void *ptr);
+void			allocs_free(void *ptr);
+void			*allocs_malloc(size_t size);
+void			allocs_self_free(void);
+void			allocs_self_free(void);
+void			allocs_print_storage(bool show_nulls);
+t_alloc_storage	*new_alloc_storage(void);
 
 #endif

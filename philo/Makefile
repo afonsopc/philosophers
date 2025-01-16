@@ -1,11 +1,11 @@
 NAME = philo
 CC = cc
 INCLUDES = -I. -I./allocs -I./utils
-CFLAGS = -Wextra -Werror -Wall $(INCLUDES)
+CFLAGS = -Wextra -Werror -Wall $(INCLUDES) -g # -fsanitize=address
 
 OBJ_DIR = ../obj
-SRC_ALLOCS = allocs/alloc_utils.c allocs/allocs.c 
-SRC_UTILS = utils/utils.c utils/utils_utils.c
+SRC_ALLOCS = allocs/allocs.c allocs/alloc_utils1.c allocs/alloc_utils2.c
+SRC_UTILS = utils/utils.c utils/utils_utils1.c utils/utils_utils2.c
 SRC = main.c
 SRC += $(SRC_ALLOCS) $(SRC_UTILS)
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:48:49 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/15 21:25:49 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/01/15 23:43:31 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdbool.h>
 
 # ifndef ALLOC_STORAGE_BUFFER_SIZE
-#  define ALLOC_STORAGE_BUFFER_SIZE 5120
+#  define ALLOC_STORAGE_BUFFER_SIZE 50
 # endif
 
 # ifndef USE_ALLOC_STORAGE
@@ -40,13 +40,11 @@ typedef struct s_allocs
 	void					*(*malloc)(size_t size);
 	void					(*free)(void *ptr);
 	bool					(*add_alloc)(void *ptr);
+	void					(*self_free)(void);
+	void					(*allocs_print_storage)(bool show_nulls);
 }	t_allocs;
 
-t_allocs	*allocs(void);
-void		init_allocs(void);
-void		*allocs_calloc(size_t count, size_t size);
-bool		allocs_add_alloc(void *ptr);
-void		allocs_free(void *ptr);
-void		*allocs_malloc(size_t size);
+t_allocs		*allocs(void);
+bool			init_allocs(void);
 
 #endif

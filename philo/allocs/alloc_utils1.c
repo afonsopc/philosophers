@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   alloc_utils.c                                      :+:      :+:    :+:   */
+/*   alloc_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:23:04 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/15 21:25:22 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/01/15 23:51:53 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <allocs.h>
+#include <internal_allocs.h>
 
 void	*allocs_malloc(size_t size)
 {
@@ -51,13 +51,13 @@ t_alloc_storage	*new_alloc_storage(void)
 bool	allocs_add_alloc(void *ptr)
 {
 	t_alloc_storage	*storage;
-	int				i;
+	size_t			i;
 
 	storage = allocs()->storage;
 	while (USE_ALLOC_STORAGE && storage)
 	{
 		i = 0;
-		while (storage->allocs[i])
+		while (storage->allocs[i] && i < ALLOC_STORAGE_BUFFER_SIZE)
 			i++;
 		if (i < ALLOC_STORAGE_BUFFER_SIZE)
 		{
@@ -74,7 +74,7 @@ bool	allocs_add_alloc(void *ptr)
 void	allocs_free(void *ptr)
 {
 	t_alloc_storage	*storage;
-	int				i;
+	size_t			i;
 
 	if (!USE_ALLOC_STORAGE)
 		return (free(ptr));
