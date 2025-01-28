@@ -6,11 +6,18 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:43:36 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/16 01:03:44 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/01/28 22:02:07 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
+
+/*
+Exit Codes:
+0 - Success
+1 - Not enough arguments
+2 - Memory allocation error
+*/
 
 bool	init(int argc, char **argv)
 {
@@ -26,14 +33,15 @@ bool	init(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	char	*str;
 	size_t	i;
+	t_list	*list;
 
+	list = NULL;
 	if (!init(argc, argv))
 		return (1);
 	i = -1;
-	while (++i < 1024 * 10)
-		str = utils()->strcopy("Hello Philosophers\n");
-	(utils()->fputstr)(1, str);
+	while (++i < 1024)
+		(utils()->list_append)(&list, utils()->strcopy("Hello Philosophers\n"));
+	utils()->list_print(list);
 	utils()->exit(0);
 }

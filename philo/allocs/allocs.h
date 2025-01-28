@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:48:49 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/15 23:43:31 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/01/16 14:34:57 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,15 @@
 # include <stdbool.h>
 
 # ifndef ALLOC_STORAGE_BUFFER_SIZE
-#  define ALLOC_STORAGE_BUFFER_SIZE 50
+#  define ALLOC_STORAGE_BUFFER_SIZE 1024
 # endif
 
 # ifndef USE_ALLOC_STORAGE
 #  define USE_ALLOC_STORAGE 1
+# endif
+
+# ifndef EXIT_ON_ALLOC_FAIL
+#  define EXIT_ON_ALLOC_FAIL 1
 # endif
 
 typedef struct s_alloc_storage

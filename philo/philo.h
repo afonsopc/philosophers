@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:48:49 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/16 01:02:52 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:17:01 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ typedef enum e_state
 	DEAD
 }	t_state;
 
+typedef struct s_fork
+{
+	int		id;
+	bool	taken;
+}	t_fork;
+
 typedef struct s_philo
 {
 	int			id;
@@ -42,11 +48,5 @@ typedef struct s_philo
 	void		(*think)(struct s_philo *philo);
 	void		(*die)(struct s_philo *philo);
 }	t_philo;
-
-typedef struct s_fork
-{
-	int		id;
-	bool	taken;
-}	t_fork;
 
 #endif

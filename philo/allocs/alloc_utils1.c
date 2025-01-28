@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:23:04 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/15 23:51:53 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:43:44 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ void	*allocs_malloc(size_t size)
 
 	ptr = malloc(size);
 	if (!ptr)
-		return (NULL);
+	{
+		if (!EXIT_ON_ALLOC_FAIL)
+			return (NULL);
+		utils()->exit(2);
+	}
 	if (!allocs()->add_alloc(ptr))
 		return (free(ptr), NULL);
 	return (ptr);
