@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:48:49 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/29 08:41:28 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/01/29 08:56:01 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <stdbool.h>
 # include <pthread.h>
 
+// TODO: REMOVE
+#include <stdio.h>
+
 typedef enum e_state
 {
 	THINKING,
@@ -28,26 +31,20 @@ typedef enum e_state
 	DEAD
 }	t_state;
 
-typedef struct s_fork
-{
-	int		id;
-	bool	taken;
-}	t_fork;
-
 typedef struct s_philo
 {
-	int			id;
-	t_state		state;
-	t_fork		*left_fork;
-	t_fork		*right_fork;
-	size_t		last_meal;
-	int			meals;
-	void		(*take_fork)(struct s_philo *philo,
-			t_fork *fork, bool right_fork);
-	void		(*eat)(struct s_philo *philo);
-	void		(*sleep)(struct s_philo *philo);
-	void		(*think)(struct s_philo *philo);
-	void		(*die)(struct s_philo *philo);
+	int					id;
+	t_state				state;
+	pthread_mutex_t		*left_fork;
+	pthread_mutex_t		*right_fork;
+	size_t				last_meal;
+	int					meals;
+	void				(*take_fork)(struct s_philo *philo,
+			pthread_mutex_t *fork);
+	void				(*eat)(struct s_philo *philo);
+	void				(*sleep)(struct s_philo *philo);
+	void				(*think)(struct s_philo *philo);
+	void				(*die)(struct s_philo *philo);
 }	t_philo;
 
 typedef struct s_data
@@ -69,7 +66,8 @@ void	print_philo_state(t_philo *philo, char *state_str);
 bool	init(int argc, char **argv);
 void	create_philosohers(void);
 void	create_forks(void);
-void	action_take_fork(t_philo *philo, t_fork *fork, bool right_fork);
+void	action_take_fork(t_philo *philo,
+			pthread_mutex_t *fork);
 void	action_eat(t_philo *philo);
 void	action_sleep(t_philo *philo);
 void	action_think(t_philo *philo);

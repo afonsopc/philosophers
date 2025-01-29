@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 00:58:42 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/29 08:37:07 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/01/29 09:04:09 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,15 @@ void	create_philosohers(void)
 
 void	create_forks(void)
 {
-	size_t	i;
-	t_fork	*fork;
+	size_t			i;
+	pthread_mutex_t	*fork;
 
 	i = -1;
 	while (++i < data()->number_of_philosophers)
 	{
-		fork = allocs()->calloc(1, sizeof(t_fork));
-		fork->id = i;
+		fork = allocs()->calloc(1, sizeof(pthread_mutex_t));
+		pthread_mutex_init(fork, NULL);
 		(utils()->list_append)(&data()->forks, fork);
+		fork = NULL;
 	}
 }

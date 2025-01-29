@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:43:36 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/29 08:41:01 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/01/29 09:03:18 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,23 @@ Exit Codes:
 
 void	*philo_processor(t_philo *philo)
 {
-	while (1)
+	while (data()->number_of_times_each_philosopher_must_eat == -1
+		|| philo->meals < data()->number_of_times_each_philosopher_must_eat)
 	{
 		while (1)
 		{
 			if (philo->last_meal + data()->time_to_die < utils()->get_time_ms())
 				return (philo->die(philo), NULL);
-			if (!philo->left_fork->taken && philo->right_fork->taken)
-				continue ;
-			philo->take_fork(philo, philo->left_fork, false);
-			philo->take_fork(philo, philo->right_fork, true);
+			if (philo->id % 2 == 0)
+			{
+				philo->take_fork(philo, philo->right_fork);
+				philo->take_fork(philo, philo->left_fork);
+			}
+			else
+			{
+				philo->take_fork(philo, philo->left_fork);
+				philo->take_fork(philo, philo->right_fork);
+			}
 			break ;
 		}
 		philo->eat(philo);
@@ -40,12 +47,43 @@ void	*philo_processor(t_philo *philo)
 	return (NULL);
 }
 
+bool	philosophers_alive(void)
+{
+	t_list	*philo_node;
+	t_philo	*philo;
+
+	philo_node = data()->philos;
+	while (philo_node)
+	{
+		philo = philo_node->data;
+		if (philo->state != DEAD)
+			return (true);
+		philo_node = philo_node->next;
+	}
+	return (false);
+}
+
+void	kill_poor_and_hungry_philosophers(void)
+{
+	t_list	*philo_node;
+	t_philo	*philo;
+
+	philo_node = data()->philos;
+	while (philo_node)
+	{
+		philo = philo_node->data;
+		if (philo->state != DEAD && philo->last_meal
+			+ data()->time_to_die < utils()->get_time_ms())
+			philo->die(philo);
+		philo_node = philo_node->next;
+	}
+}
+
 void	start_simulation(void)
 {
 	t_list		*philo_node;
 	t_philo		*philo;
 	pthread_t	*thread;
-	size_t		i;
 
 	data()->start_time = utils()->get_time_ms();
 	philo_node = data()->philos;
@@ -58,10 +96,8 @@ void	start_simulation(void)
 			(void *(*)(void *))philo_processor, philo);
 		(utils()->list_append)(&data()->threads, thread);
 	}
-	i = -1;
-	while (++i < data()->number_of_philosophers)
-		pthread_join(
-			(*(pthread_t *)utils()->list_get(data()->threads, i)->data), NULL);
+	while (philosophers_alive())
+		kill_poor_and_hungry_philosophers();
 }
 
 int	main(int argc, char **argv)
