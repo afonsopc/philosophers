@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:48:49 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/28 21:54:29 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/01/29 08:40:02 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <allocs.h>
+# include <sys/time.h>
 
 typedef struct s_list
 {
@@ -40,6 +41,16 @@ typedef struct s_utils
 	void				(*list_free)(t_list **list);
 	void				(*list_print)(t_list *list);
 	t_list				*(*list_get)(t_list *list, size_t index);
+	bool				(*is_number)(char *str);
+	long long			(*atoll)(char *str);
+	size_t				(*get_time_ms)(void);
+	size_t				(*llsize)(long long n);
+	char				*(*lltoa)(long long n);
+	char				*(*strjoin2)(char *s1, char *s2);
+	char				*(*strjoin3)(char *s1, char *s2, char *s3);
+	char				*(*strjoin4)(char *s1, char *s2, char *s3, char *s4);
+	void				(*sleep_ms)(size_t ms);
+	char				*(*get_time_ms_string)(size_t epoch);
 }	t_utils;
 
 t_utils				*utils(void);

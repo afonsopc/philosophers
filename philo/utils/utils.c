@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:26 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/28 21:54:29 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/01/29 00:57:56 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,22 @@ t_utils	*utils(void)
 	static t_utils	utils;
 
 	return (&utils);
+}
+
+void	init_utils2(void)
+{
+	utils()->list_print = utils_list_print;
+	utils()->list_get = utils_list_get;
+	utils()->is_number = utils_is_number;
+	utils()->atoll = utils_atoll;
+	utils()->get_time_ms = utils_get_time_ms;
+	utils()->llsize = utils_llsize;
+	utils()->lltoa = utils_lltoa;
+	utils()->strjoin2 = utils_strjoin2;
+	utils()->strjoin3 = utils_strjoin3;
+	utils()->strjoin4 = utils_strjoin4;
+	utils()->sleep_ms = utils_sleep_ms;
+	utils()->get_time_ms_string = utils_get_time_ms_string;
 }
 
 bool	init_utils(void)
@@ -34,6 +50,6 @@ bool	init_utils(void)
 	utils()->list_append = utils_list_append;
 	utils()->list_remove = utils_list_remove;
 	utils()->list_free = utils_list_free;
-	utils()->list_print = list_print;
+	init_utils2();
 	return (true);
 }
