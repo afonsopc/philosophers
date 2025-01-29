@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:43:36 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/29 09:03:18 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/01/29 09:17:31 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ Exit Codes:
 
 void	*philo_processor(t_philo *philo)
 {
-	while (data()->number_of_times_each_philosopher_must_eat == -1
-		|| philo->meals < data()->number_of_times_each_philosopher_must_eat)
+	while (philo->state != DEAD)
 	{
 		while (1)
 		{
@@ -30,19 +29,16 @@ void	*philo_processor(t_philo *philo)
 				return (philo->die(philo), NULL);
 			if (philo->id % 2 == 0)
 			{
-				philo->take_fork(philo, philo->right_fork);
-				philo->take_fork(philo, philo->left_fork);
+				action(philo, TAKE_RIGHT_FORK);
+				action(philo, TAKE_LEFT_FORK);
 			}
 			else
-			{
-				philo->take_fork(philo, philo->left_fork);
-				philo->take_fork(philo, philo->right_fork);
-			}
+				(action(philo, TAKE_LEFT_FORK), action(philo, TAKE_RIGHT_FORK));
 			break ;
 		}
-		philo->eat(philo);
-		philo->sleep(philo);
-		philo->think(philo);
+		action(philo, EAT);
+		action(philo, SLEEP);
+		action(philo, THINK);
 	}
 	return (NULL);
 }

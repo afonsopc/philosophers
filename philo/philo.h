@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:48:49 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/29 08:56:01 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/01/29 09:14:43 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@
 # include <stdbool.h>
 # include <pthread.h>
 
-// TODO: REMOVE
-#include <stdio.h>
-
 typedef enum e_state
 {
 	THINKING,
@@ -30,6 +27,16 @@ typedef enum e_state
 	SLEEPING,
 	DEAD
 }	t_state;
+
+typedef enum e_action
+{
+	TAKE_LEFT_FORK,
+	TAKE_RIGHT_FORK,
+	THINK,
+	EAT,
+	SLEEP,
+	DIE
+}	t_action;
 
 typedef struct s_philo
 {
@@ -72,5 +79,7 @@ void	action_eat(t_philo *philo);
 void	action_sleep(t_philo *philo);
 void	action_think(t_philo *philo);
 void	action_die(t_philo *philo);
+void	action(t_philo *philo, t_action state);
+bool	philosopher_has_ate_enough(t_philo *philo);
 
 #endif
