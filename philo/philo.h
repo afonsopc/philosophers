@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:48:49 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/29 09:14:43 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/02/04 00:54:31 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_philo
 {
 	int					id;
 	t_state				state;
+	pthread_mutex_t		mutex;
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*right_fork;
 	size_t				last_meal;

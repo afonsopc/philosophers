@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 00:58:42 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/29 09:04:09 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/02/04 00:54:43 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	create_philosohers(void)
 		left_fork_id = i - 1;
 		if (i == 0)
 			left_fork_id = data()->number_of_philosophers - 1;
+		pthread_mutex_init(&philo->mutex, NULL);
 		philo->left_fork = utils()->list_get(data()->forks, left_fork_id)->data;
 		philo->right_fork = utils()->list_get(data()->forks, i)->data;
 		philo->take_fork = action_take_fork;

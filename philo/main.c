@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:43:36 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/29 09:17:31 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/02/04 01:15:21 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,24 @@ Exit Codes:
 
 void	*philo_processor(t_philo *philo)
 {
-	while (philo->state != DEAD)
+	while (1)
 	{
+		pthread_mutex_lock(&philo->mutex);
+		if (philo->state == DEAD)
+			return (pthread_mutex_unlock(&philo->mutex), NULL);
+		pthread_mutex_unlock(&philo->mutex);
 		while (1)
 		{
+			pthread_mutex_lock(&philo->mutex);
 			if (philo->last_meal + data()->time_to_die < utils()->get_time_ms())
-				return (philo->die(philo), NULL);
-			if (philo->id % 2 == 0)
-			{
-				action(philo, TAKE_RIGHT_FORK);
-				action(philo, TAKE_LEFT_FORK);
-			}
-			else
+				return (pthread_mutex_unlock(&philo->mutex),
+					philo->die(philo), NULL);
+			pthread_mutex_unlock(&philo->mutex);
+			if (philo->id % 2 == 0
+				|| (size_t)philo->id == data()->number_of_philosophers - 1)
 				(action(philo, TAKE_LEFT_FORK), action(philo, TAKE_RIGHT_FORK));
+			else
+				(action(philo, TAKE_RIGHT_FORK), action(philo, TAKE_LEFT_FORK));
 			break ;
 		}
 		action(philo, EAT);
@@ -68,9 +73,16 @@ void	kill_poor_and_hungry_philosophers(void)
 	while (philo_node)
 	{
 		philo = philo_node->data;
-		if (philo->state != DEAD && philo->last_meal
+		pthread_mutex_lock(&philo->mutex);
+		if (philo->state != DEAD
+			&& philo->state != EATING && philo->last_meal
 			+ data()->time_to_die < utils()->get_time_ms())
+		{
+			pthread_mutex_unlock(&philo->mutex);
 			philo->die(philo);
+		}
+		else
+			pthread_mutex_unlock(&philo->mutex);
 		philo_node = philo_node->next;
 	}
 }
