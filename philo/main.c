@@ -34,11 +34,10 @@ void	*philo_processor(t_philo *philo)
 				return (pthread_mutex_unlock(&philo->mutex),
 					philo->die(philo), NULL);
 			pthread_mutex_unlock(&philo->mutex);
-			if (philo->id % 2 == 0
-				|| (size_t)philo->id == data()->number_of_philosophers - 1)
-				(action(philo, TAKE_LEFT_FORK), action(philo, TAKE_RIGHT_FORK));
-			else
+			if (philo->id % 2)
 				(action(philo, TAKE_RIGHT_FORK), action(philo, TAKE_LEFT_FORK));
+			else
+				(action(philo, TAKE_LEFT_FORK), action(philo, TAKE_RIGHT_FORK));
 			break ;
 		}
 		action(philo, EAT);

@@ -57,6 +57,7 @@ typedef struct s_philo
 
 typedef struct s_data
 {
+	bool		stop;
 	t_list		*philos;
 	t_list		*forks;
 	t_list		*threads;
@@ -66,7 +67,6 @@ typedef struct s_data
 	size_t		time_to_eat;
 	size_t		time_to_sleep;
 	ssize_t		number_of_times_each_philosopher_must_eat;
-
 }	t_data;
 
 t_data	*data(void);
@@ -81,6 +81,5 @@ void	action_sleep(t_philo *philo);
 void	action_think(t_philo *philo);
 void	action_die(t_philo *philo);
 void	action(t_philo *philo, t_action state);
-bool	philosopher_has_ate_enough(t_philo *philo);
 
 #endif

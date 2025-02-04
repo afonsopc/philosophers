@@ -26,6 +26,7 @@ void	action_take_fork(t_philo *philo, pthread_mutex_t *fork)
 void	action_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->mutex);
+	philo->last_meal = utils()->get_time_ms();
 	philo->state = EATING;
 	pthread_mutex_unlock(&philo->mutex);
 	print_philo_state(philo, " is eating\n");
@@ -33,7 +34,6 @@ void	action_eat(t_philo *philo)
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_lock(&philo->mutex);
-	philo->last_meal = utils()->get_time_ms();
 	philo->meals++;
 	pthread_mutex_unlock(&philo->mutex);
 }
