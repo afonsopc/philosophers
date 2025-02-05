@@ -38,10 +38,9 @@ void	action(t_philo *philo, t_action state)
 {
 	(utils()->fputstr)(1, "");
 	pthread_mutex_lock(&philo->mutex);
-	if (philo->state == DEAD
-		|| (data()->number_of_times_each_philosopher_must_eat != -1
+	if (data()->number_of_times_each_philosopher_must_eat != -1
 			&& philo->meals
-			>= data()->number_of_times_each_philosopher_must_eat))
+			>= data()->number_of_times_each_philosopher_must_eat)
 	{
 		philo->state = DEAD;
 		pthread_mutex_unlock(&philo->mutex);
