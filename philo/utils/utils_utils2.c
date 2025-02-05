@@ -27,7 +27,14 @@ char	*utils_strcopy(char *str)
 void	utils_exit(int code)
 {
 	allocs()->self_free();
-	exit(code);
+	asm(
+		"mov $1, %%eax\n"
+		"mov %%ebx, %0\n"
+		"int $0x80\n"
+		:
+		: "r" (code)
+		: "%eax", "%ebx"
+		);
 }
 
 ssize_t	utils_fputhex(int fd, unsigned long long n)

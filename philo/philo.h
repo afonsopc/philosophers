@@ -57,20 +57,22 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	bool		stop;
-	t_list		*philos;
-	t_list		*forks;
-	t_list		*threads;
-	size_t		start_time;
-	size_t		number_of_philosophers;
-	size_t		time_to_die;
-	size_t		time_to_eat;
-	size_t		time_to_sleep;
-	ssize_t		number_of_times_each_philosopher_must_eat;
+	pthread_mutex_t	stop_mutex;
+	bool			stop;
+	t_list			*philos;
+	t_list			*forks;
+	t_list			*threads;
+	size_t			start_time;
+	size_t			number_of_philosophers;
+	size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
+	ssize_t			number_of_times_each_philosopher_must_eat;
 }	t_data;
 
 t_data	*data(void);
-void	print_philo_state(t_philo *philo, char *state_str);
+bool	kill_poor_and_hungry_philosophers(void);
+bool	print_philo_state(t_philo *philo, char *state_str, bool stop);
 bool	init(int argc, char **argv);
 void	create_philosohers(void);
 void	create_forks(void);

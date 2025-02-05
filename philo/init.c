@@ -33,6 +33,7 @@ bool	init(int argc, char **argv)
 	if (argc != 6)
 		return (true);
 	data()->number_of_times_each_philosopher_must_eat = utils()->atoll(argv[5]);
+	pthread_mutex_init(&data()->stop_mutex, NULL);
 	return (true);
 }
 

@@ -29,11 +29,6 @@ void	*philo_processor(t_philo *philo)
 		pthread_mutex_unlock(&philo->mutex);
 		while (1)
 		{
-			pthread_mutex_lock(&philo->mutex);
-			if (philo->last_meal + data()->time_to_die < utils()->get_time_ms())
-				return (pthread_mutex_unlock(&philo->mutex),
-					philo->die(philo), NULL);
-			pthread_mutex_unlock(&philo->mutex);
 			if (philo->id % 2)
 				(action(philo, TAKE_RIGHT_FORK), action(philo, TAKE_LEFT_FORK));
 			else
@@ -63,27 +58,12 @@ bool	philosophers_alive(void)
 	return (false);
 }
 
-void	kill_poor_and_hungry_philosophers(void)
+void	*philo_mastermind(void)
 {
-	t_list	*philo_node;
-	t_philo	*philo;
-
-	philo_node = data()->philos;
-	while (philo_node)
-	{
-		philo = philo_node->data;
-		pthread_mutex_lock(&philo->mutex);
-		if (philo->state != DEAD
-			&& philo->state != EATING && philo->last_meal
-			+ data()->time_to_die < utils()->get_time_ms())
-		{
-			pthread_mutex_unlock(&philo->mutex);
-			philo->die(philo);
-		}
-		else
-			pthread_mutex_unlock(&philo->mutex);
-		philo_node = philo_node->next;
-	}
+	while (philosophers_alive())
+		if (kill_poor_and_hungry_philosophers())
+			break ;
+	return (NULL);
 }
 
 void	start_simulation(void)
@@ -103,8 +83,9 @@ void	start_simulation(void)
 			(void *(*)(void *))philo_processor, philo);
 		(utils()->list_append)(&data()->threads, thread);
 	}
-	while (philosophers_alive())
-		kill_poor_and_hungry_philosophers();
+	pthread_create(thread, NULL,
+		(void *(*)(void *))philo_mastermind, NULL);
+	pthread_join(*thread, NULL);
 }
 
 int	main(int argc, char **argv)

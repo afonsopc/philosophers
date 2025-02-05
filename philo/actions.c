@@ -17,8 +17,11 @@ void	action_take_fork(t_philo *philo, pthread_mutex_t *fork)
 	pthread_mutex_lock(fork);
 	pthread_mutex_lock(&philo->mutex);
 	if (philo->state != DEAD)
-		return (pthread_mutex_unlock(&philo->mutex),
-			print_philo_state(philo, " has taken a fork\n"));
+	{
+		pthread_mutex_unlock(&philo->mutex);
+		if (!print_philo_state(philo, " has taken a fork\n", false))
+			return ;
+	}
 	pthread_mutex_unlock(&philo->mutex);
 	pthread_mutex_unlock(fork);
 }
@@ -29,7 +32,8 @@ void	action_eat(t_philo *philo)
 	philo->last_meal = utils()->get_time_ms();
 	philo->state = EATING;
 	pthread_mutex_unlock(&philo->mutex);
-	print_philo_state(philo, " is eating\n");
+	if (!print_philo_state(philo, " is eating\n", false))
+		return ;
 	utils()->sleep_ms(data()->time_to_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
@@ -43,7 +47,8 @@ void	action_sleep(t_philo *philo)
 	pthread_mutex_lock(&philo->mutex);
 	philo->state = SLEEPING;
 	pthread_mutex_unlock(&philo->mutex);
-	print_philo_state(philo, " is sleeping\n");
+	if (!print_philo_state(philo, " is sleeping\n", false))
+		return ;
 	utils()->sleep_ms(data()->time_to_sleep);
 }
 
@@ -52,7 +57,8 @@ void	action_think(t_philo *philo)
 	pthread_mutex_lock(&philo->mutex);
 	philo->state = THINKING;
 	pthread_mutex_unlock(&philo->mutex);
-	print_philo_state(philo, " is thinking\n");
+	if (!print_philo_state(philo, " is thinking\n", false))
+		return ;
 }
 
 void	action_die(t_philo *philo)
@@ -60,12 +66,11 @@ void	action_die(t_philo *philo)
 	pthread_mutex_lock(&philo->mutex);
 	if (philo->state == EATING)
 	{
-		pthread_mutex_unlock(&philo->mutex);
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_lock(&philo->mutex);
 	}
 	philo->state = DEAD;
 	pthread_mutex_unlock(&philo->mutex);
-	print_philo_state(philo, " died\n");
+	if (!print_philo_state(philo, " died\n", true))
+		return ;
 }
