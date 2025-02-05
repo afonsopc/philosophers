@@ -21,6 +21,9 @@ Exit Codes:
 
 void	*philo_processor(t_philo *philo)
 {
+	if (data()->number_of_philosophers == 1)
+		return (action(philo, TAKE_RIGHT_FORK),
+			utils()->sleep_ms(data()->time_to_die), NULL);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->mutex);
