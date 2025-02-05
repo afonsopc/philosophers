@@ -86,3 +86,35 @@ bool	kill_poor_and_hungry_philosophers(void)
 	}
 	return (false);
 }
+
+void	destroy_mutexes(void)
+{
+	t_list	*curr;
+
+	curr = data()->philos;
+	while (curr)
+	{
+		pthread_mutex_destroy(&((t_philo *)curr->data)->mutex);
+		curr = curr->next;
+	}
+	curr = data()->forks;
+	while (curr)
+	{
+		pthread_mutex_destroy((pthread_mutex_t *)curr->data);
+		curr = curr->next;
+	}
+}
+
+void	join_threads(void)
+{
+	t_list		*curr;
+	pthread_t	*thread;
+
+	curr = data()->threads;
+	while (curr)
+	{
+		thread = curr->data;
+		pthread_join(*thread, NULL);
+		curr = curr->next;
+	}
+}

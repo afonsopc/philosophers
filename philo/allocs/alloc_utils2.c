@@ -39,6 +39,7 @@ void	allocs_self_free(void)
 		free_alloc_storage(storage);
 		storage = tmp;
 	}
+	pthread_mutex_destroy(&allocs()->allocs_mutex);
 }
 
 void	allocs_print_storage(bool show_nulls)

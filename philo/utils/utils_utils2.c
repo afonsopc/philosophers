@@ -28,7 +28,6 @@ void	utils_exit(int code)
 {
 	(void)code;
 	allocs()->self_free();
-	// exit(code);
 }
 
 ssize_t	utils_fputhex(int fd, unsigned long long n)

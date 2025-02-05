@@ -17,6 +17,7 @@
 # include <utils.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <pthread.h>
 
 # ifndef ALLOC_STORAGE_BUFFER_SIZE
 #  define ALLOC_STORAGE_BUFFER_SIZE 1024
@@ -42,6 +43,7 @@ typedef struct s_allocs
 	t_alloc_storage			*storage;
 	void					*(*calloc)(size_t count, size_t size);
 	void					*(*malloc)(size_t size);
+	pthread_mutex_t			allocs_mutex;
 	void					(*free)(void *ptr);
 	bool					(*add_alloc)(void *ptr);
 	void					(*self_free)(void);

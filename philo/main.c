@@ -24,8 +24,11 @@ void	*philo_processor(t_philo *philo)
 	while (1)
 	{
 		pthread_mutex_lock(&philo->mutex);
-		if (philo->state == DEAD)
-			return (pthread_mutex_unlock(&philo->mutex), NULL);
+		pthread_mutex_lock(&data()->stop_mutex);
+		if (philo->state == DEAD || data()->stop)
+			return (pthread_mutex_unlock(&philo->mutex),
+				pthread_mutex_unlock(&data()->stop_mutex), NULL);
+		pthread_mutex_unlock(&data()->stop_mutex);
 		pthread_mutex_unlock(&philo->mutex);
 		while (1)
 		{
@@ -51,8 +54,10 @@ bool	philosophers_alive(void)
 	while (philo_node)
 	{
 		philo = philo_node->data;
+		pthread_mutex_lock(&philo->mutex);
 		if (philo->state != DEAD)
-			return (true);
+			return (pthread_mutex_unlock(&philo->mutex), true);
+		pthread_mutex_unlock(&philo->mutex);
 		philo_node = philo_node->next;
 	}
 	return (false);
@@ -83,9 +88,11 @@ void	start_simulation(void)
 			(void *(*)(void *))philo_processor, philo);
 		(utils()->list_append)(&data()->threads, thread);
 	}
+	thread = allocs()->calloc(1, sizeof(pthread_t));
 	pthread_create(thread, NULL,
 		(void *(*)(void *))philo_mastermind, NULL);
 	pthread_join(*thread, NULL);
+	join_threads();
 }
 
 int	main(int argc, char **argv)
@@ -97,5 +104,6 @@ int	main(int argc, char **argv)
 	create_forks();
 	create_philosohers();
 	start_simulation();
+	destroy_mutexes();
 	utils()->exit(0);
 }

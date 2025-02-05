@@ -83,5 +83,7 @@ void	action_sleep(t_philo *philo);
 void	action_think(t_philo *philo);
 void	action_die(t_philo *philo);
 void	action(t_philo *philo, t_action state);
+void	destroy_mutexes(void);
+void	join_threads(void);
 
 #endif

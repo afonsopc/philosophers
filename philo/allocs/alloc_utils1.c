@@ -57,6 +57,7 @@ bool	allocs_add_alloc(void *ptr)
 	t_alloc_storage	*storage;
 	size_t			i;
 
+	pthread_mutex_lock(&allocs()->allocs_mutex);
 	storage = allocs()->storage;
 	while (USE_ALLOC_STORAGE && storage)
 	{
@@ -66,12 +67,13 @@ bool	allocs_add_alloc(void *ptr)
 		if (i < ALLOC_STORAGE_BUFFER_SIZE)
 		{
 			storage->allocs[i] = ptr;
-			return (true);
+			return (pthread_mutex_unlock(&allocs()->allocs_mutex), true);
 		}
 		if (!storage->next)
 			storage->next = new_alloc_storage();
 		storage = storage->next;
 	}
+	pthread_mutex_unlock(&allocs()->allocs_mutex);
 	return (false);
 }
 
@@ -82,6 +84,7 @@ void	allocs_free(void *ptr)
 
 	if (!USE_ALLOC_STORAGE)
 		return (free(ptr));
+	pthread_mutex_lock(&allocs()->allocs_mutex);
 	storage = allocs()->storage;
 	while (storage)
 	{
@@ -91,8 +94,9 @@ void	allocs_free(void *ptr)
 		if (storage->allocs[i] == ptr)
 		{
 			storage->allocs[i] = NULL;
-			return (free(ptr));
+			return (pthread_mutex_unlock(&allocs()->allocs_mutex), free(ptr));
 		}
 		storage = storage->next;
 	}
+	pthread_mutex_unlock(&allocs()->allocs_mutex);
 }

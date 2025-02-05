@@ -27,6 +27,7 @@ bool	init_allocs(void)
 	allocs()->free = allocs_free;
 	allocs()->self_free = allocs_self_free;
 	allocs()->allocs_print_storage = allocs_print_storage;
+	pthread_mutex_init(&allocs()->allocs_mutex, NULL);
 	if (USE_ALLOC_STORAGE)
 	{
 		allocs()->storage = new_alloc_storage();

@@ -33,7 +33,11 @@ void	action_eat(t_philo *philo)
 	philo->state = EATING;
 	pthread_mutex_unlock(&philo->mutex);
 	if (!print_philo_state(philo, " is eating\n", false))
+	{
+		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(philo->right_fork);
 		return ;
+	}
 	utils()->sleep_ms(data()->time_to_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
