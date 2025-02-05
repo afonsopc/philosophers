@@ -19,8 +19,8 @@ void	action_take_fork(t_philo *philo, pthread_mutex_t *fork)
 	if (philo->state != DEAD)
 	{
 		pthread_mutex_unlock(&philo->mutex);
-		if (!print_philo_state(philo, " has taken a fork\n", false))
-			return ;
+		print_philo_state(philo, " has taken a fork\n", false);
+		return ;
 	}
 	pthread_mutex_unlock(&philo->mutex);
 	pthread_mutex_unlock(fork);
