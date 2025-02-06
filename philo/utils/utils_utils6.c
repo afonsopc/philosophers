@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 23:22:06 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/29 00:33:22 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/02/06 21:11:54 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@ void	utils_sleep_ms(size_t ms)
 
 	start = utils()->get_time_ms();
 	while (utils()->get_time_ms() - start < ms)
+		usleep(100);
+}
+
+void	utils_safe_sleep_ms(size_t ms, bool *stop)
+{
+	size_t	start;
+
+	start = utils()->get_time_ms();
+	while (utils()->get_time_ms() - start < ms && !*stop)
 		usleep(100);
 }
 

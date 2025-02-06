@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:48:49 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/29 08:40:02 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/02/06 21:12:12 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_utils
 	char				*(*strjoin3)(char *s1, char *s2, char *s3);
 	char				*(*strjoin4)(char *s1, char *s2, char *s3, char *s4);
 	void				(*sleep_ms)(size_t ms);
+	void				(*safe_sleep_ms)(size_t ms, bool *stop);
 	char				*(*get_time_ms_string)(size_t epoch);
 }	t_utils;
 

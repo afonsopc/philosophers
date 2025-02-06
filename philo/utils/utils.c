@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:26 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/29 00:57:56 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/02/06 21:12:13 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	init_utils2(void)
 	utils()->strjoin3 = utils_strjoin3;
 	utils()->strjoin4 = utils_strjoin4;
 	utils()->sleep_ms = utils_sleep_ms;
+	utils()->safe_sleep_ms = utils_safe_sleep_ms;
 	utils()->get_time_ms_string = utils_get_time_ms_string;
 }
 

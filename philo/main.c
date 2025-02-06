@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:43:36 by afpachec          #+#    #+#             */
-/*   Updated: 2025/02/04 01:15:21 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/02/06 21:14:49 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*philo_processor(t_philo *philo)
 {
 	if (data()->number_of_philosophers == 1)
 		return (action(philo, TAKE_RIGHT_FORK),
-			utils()->sleep_ms(data()->time_to_die), NULL);
+			utils()->safe_sleep_ms(data()->time_to_die, &data()->stop), NULL);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->mutex);

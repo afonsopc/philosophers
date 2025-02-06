@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 23:57:23 by afpachec          #+#    #+#             */
-/*   Updated: 2025/02/04 01:13:39 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/02/06 21:14:42 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	action_eat(t_philo *philo)
 		pthread_mutex_unlock(philo->right_fork);
 		return ;
 	}
-	utils()->sleep_ms(data()->time_to_eat);
+	(utils()->safe_sleep_ms)(data()->time_to_eat,
+		&data()->stop);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_lock(&philo->mutex);
@@ -53,7 +54,8 @@ void	action_sleep(t_philo *philo)
 	pthread_mutex_unlock(&philo->mutex);
 	if (!print_philo_state(philo, " is sleeping\n", false))
 		return ;
-	utils()->sleep_ms(data()->time_to_sleep);
+	(utils()->safe_sleep_ms)(data()->time_to_sleep,
+		&data()->stop);
 }
 
 void	action_think(t_philo *philo)

@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 23:48:49 by afpachec          #+#    #+#             */
-/*   Updated: 2025/01/29 08:39:32 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/02/06 21:15:16 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char				*utils_strjoin2(char *s1, char *s2);
 char				*utils_strjoin3(char *s1, char *s2, char *s3);
 char				*utils_strjoin4(char *s1, char *s2, char *s3, char *s4);
 void				utils_sleep_ms(size_t ms);
+void				utils_safe_sleep_ms(size_t ms, bool *stop);
 char				*utils_get_time_ms_string(size_t epoch);
 
 #endif
