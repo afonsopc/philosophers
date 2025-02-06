@@ -6,7 +6,7 @@
 /*   By: afpachec <afpachec@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 23:57:52 by afpachec          #+#    #+#             */
-/*   Updated: 2025/02/04 01:04:11 by afpachec         ###   ########.fr       */
+/*   Updated: 2025/02/06 09:10:27 by afpachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	action(t_philo *philo, t_action state)
 	(utils()->fputstr)(1, "");
 	pthread_mutex_lock(&philo->mutex);
 	if (data()->number_of_times_each_philosopher_must_eat != -1
-			&& philo->meals
-			>= data()->number_of_times_each_philosopher_must_eat)
+		&& philo->meals
+		>= data()->number_of_times_each_philosopher_must_eat)
 	{
 		philo->state = DEAD;
 		pthread_mutex_unlock(&philo->mutex);
