@@ -19,12 +19,12 @@ bool	init(int argc, char **argv)
 		return (false);
 	if (argc < 5 || argc > 6)
 		return ((utils()->fputstr)(2, "Error: Not enough arguments\n"), false);
-	if (!init_allocs())
-		return (false);
 	if (!utils()->is_number(argv[1]) || !utils()->is_number(argv[2])
 		|| !utils()->is_number(argv[3]) || !utils()->is_number(argv[4])
 		|| (argc == 6 && !utils()->is_number(argv[5])))
 		return ((utils()->fputstr)(2, "Error: Invalid arguments\n"), false);
+	if (!init_allocs())
+		return (false);
 	data()->number_of_philosophers = utils()->atoll(argv[1]);
 	data()->time_to_die = utils()->atoll(argv[2]);
 	data()->time_to_eat = utils()->atoll(argv[3]);

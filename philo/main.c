@@ -69,8 +69,11 @@ bool	philosophers_alive(void)
 void	*philo_mastermind(void)
 {
 	while (philosophers_alive())
+	{
 		if (kill_poor_and_hungry_philosophers())
 			break ;
+		usleep(50);
+	}
 	return (NULL);
 }
 
